@@ -3,83 +3,53 @@ using UnityEngine;
 public class Agent : MonoBehaviour
 {
     public Vector2Int position;
-    public int score = 0;
-
-    public GridManager gridManager;
-
-    public int maxSteps = 20;
 
     void Start()
     {
-        position = new Vector2Int(0, 0); // start
-        transform.position = new Vector3(position.x, position.y, -1);
-
-        StartCoroutine(RunSimulation());
+        UpdatePosition();
     }
 
-    System.Collections.IEnumerator RunSimulation()
+    void Update()
     {
-        for (int i = 0; i < maxSteps; i++)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Vector2Int move = GetRandomMove();
-            Move(move);
-
-            yield return new WaitForSeconds(0.3f);
+            MakeMove();
         }
+    }
 
-        Debug.Log("Final Score: " + score);
+    void MakeMove()
+    {
+        Vector2Int move = GetRandomMove();
+
+        Vector2Int newPos = position + move;
+
+        if (!GridManager.instance.IsInsideGrid(newPos))
+            return;
+
+        position = newPos;
+
+        CellType cell = GridManager.instance.GetCell(position.x, position.y);
+
+        Debug.Log("AI stepped on: " + cell);
+
+        UpdatePosition();
     }
 
     Vector2Int GetRandomMove()
     {
-        int rand = Random.Range(0, 4);
-
-        switch (rand)
+        Vector2Int[] moves = new Vector2Int[]
         {
-            case 0: return Vector2Int.up;
-            case 1: return Vector2Int.down;
-            case 2: return Vector2Int.left;
-            case 3: return Vector2Int.right;
-        }
+            Vector2Int.up,
+            Vector2Int.down,
+            Vector2Int.left,
+            Vector2Int.right
+        };
 
-        return Vector2Int.zero;
+        return moves[Random.Range(0, moves.Length)];
     }
 
-    void Move(Vector2Int direction)
+    void UpdatePosition()
     {
-        Vector2Int newPos = position + direction;
-
-        // verificare limite
-        if (newPos.x < 0 || newPos.x >= gridManager.width ||
-            newPos.y < 0 || newPos.y >= gridManager.height)
-            return;
-
-        position = newPos;
-        transform.position = new Vector3(position.x, position.y, -1);
-
-        EvaluateCell();
-    }
-
-    void EvaluateCell()
-    {
-        CellType cell = gridManager.grid[position.x, position.y];
-
-        switch (cell)
-        {
-            case CellType.Reward:
-                score += 10;
-                break;
-            case CellType.Trap:
-                score -= 5;
-                break;
-            case CellType.Enemy:
-                score -= 10;
-                break;
-            case CellType.Exit:
-                score += 20;
-                break;
-        }
-
-        Debug.Log("Score: " + score);
+        transform.position = GridManager.instance.GridToWorld(position);
     }
 }
