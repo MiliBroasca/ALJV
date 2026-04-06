@@ -2309,7 +2309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d4c5cf8e14cc04458cea557da37d5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 80
+  health: 200
   attackPower: 15
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
