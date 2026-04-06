@@ -18,10 +18,32 @@ public class PlayerCombatData : MonoBehaviour
     public Action modifyHealth;
     public Action modifyCooldown;
 
-    private void OnEnable()
+    private void Start()
     {
         combatManager = CombatManager.Instance;
-        combatManager.newTurn += HandleNewTurn;
+        if (combatManager != null)
+            combatManager.newTurn += HandleNewTurn;
+    }
+
+    private void OnDisable()
+    {
+        if (combatManager != null)
+            combatManager.newTurn -= HandleNewTurn;
+    }
+
+    public bool UseAbility()
+    {
+        if (currentCooldown == 0)
+        {
+            currentCooldown = abilityCooldown;
+            modifyCooldown?.Invoke();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Ability is on cooldown for " + currentCooldown + " more turns.");
+            return false;
+        }
     }
 
     private void HandleNewTurn()
@@ -32,13 +54,13 @@ public class PlayerCombatData : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Mathf.Max(health - damage, 0);
+        health = Mathf.Max(health - damage, 0);
         modifyHealth?.Invoke();
     }
 
     public void Heal(int healAmount)
     {
-        Mathf.Min(health + healAmount, maxHealth);
+        health = Mathf.Min(health + healAmount, maxHealth);
         modifyHealth?.Invoke();
     }
 

@@ -29,23 +29,32 @@ public class CombatManager : MonoBehaviour
 
     public void PlayerAttack()
     {
-        enemyCombatData.TakeDamage(playerCombatData.attackPower);
-        Debug.Log("Player attacks! Enemy health: " + enemyCombatData.health);
-        playerTurn = false;
+        if (playerTurn)
+        {
+            enemyCombatData.TakeDamage(playerCombatData.attackPower);
+            Debug.Log("Player attacks! Enemy health: " + enemyCombatData.health);
+            playerTurn = false;
+        }
     }
 
     public void PlayerAbility()
     {
-        enemyCombatData.TakeDamage(playerCombatData.abilityPower);
-        Debug.Log("Player uses ability! Enemy health: " + enemyCombatData.health);
-        playerTurn = false;
+        if (playerCombatData.UseAbility() && playerTurn)
+        {
+            enemyCombatData.TakeDamage(playerCombatData.abilityPower);
+            Debug.Log("Player uses ability! Enemy health: " + enemyCombatData.health);
+            playerTurn = false;
+        }
     }
 
     public void PlayerHeal()
     {
-        playerCombatData.Heal(playerCombatData.healPower);
-        Debug.Log("Player heals! Player health: " + playerCombatData.health);
-        playerTurn = false;
+        if (playerTurn)
+        {
+            playerCombatData.Heal(playerCombatData.healPower);
+            Debug.Log("Player heals! Player health: " + playerCombatData.health);
+            playerTurn = false;
+        }
     }
 
     public void EnemyAttack()
@@ -72,6 +81,10 @@ public class CombatManager : MonoBehaviour
                 newTurn?.Invoke();
                 playerTurn = true;
             }
+            else
+            {
+                yield return null; // Wait for player input (e.g., button press) to perform an action
+            }
             //Debug.Log("Turn " + turn);
             //PlayerAttack();
             //if (enemyCombatData.health <= 0)
@@ -81,6 +94,15 @@ public class CombatManager : MonoBehaviour
             //}
             
             //yield return new WaitForSeconds(2f); // Simulate time between turns
+        }
+
+        if (playerCombatData.health <= 0)
+        {
+            Debug.Log("Player has been defeated. Game Over.");
+        }
+        else if (enemyCombatData.health <= 0)
+        {
+            Debug.Log("Enemy has been defeated. You win!");
         }
     }
 
