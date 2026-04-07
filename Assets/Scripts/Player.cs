@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
             Debug.Log("Reward!");
             ScoreManager.instance.AddScore(10);
             GridManager.instance.grid[position.x, position.y] = CellType.Empty;
+            FindObjectOfType<GridVisualizer>().GenerateVisuals();
         }
         // integrate enemy combat
         if (cell == CellType.Enemy)
@@ -56,6 +57,15 @@ public class Player : MonoBehaviour
         }
         if (cell == CellType.Door)
             Debug.Log("Door!");
+        if (cell == CellType.Boss)
+        {
+            Debug.Log("Boss!");
+            ScoreManager.instance.playerPosition = position;
+            ScoreManager.instance.currentScene = SceneManager.GetActiveScene().name;
+            GridManager.instance.grid[position.x, position.y] = CellType.Empty; // clear boss
+            ScoreManager.instance.isBossFight = true;
+            SceneManager.LoadScene("CombatScene");
+        }
 
         UpdatePosition();
         CheckCurrentCell();
@@ -79,6 +89,7 @@ public class Player : MonoBehaviour
 
             if (nextScene != null)
             {
+                GridManager.instance.grid = null; // clear grid
                 SceneManager.LoadScene(nextScene);
             }
             else

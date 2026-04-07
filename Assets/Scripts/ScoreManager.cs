@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
     public int maxHealth = 100;
     public Vector2Int playerPosition = new Vector2Int(0, 0);
     public string currentScene;
+    public bool isBossFight = false;
 
     void Awake()
     {

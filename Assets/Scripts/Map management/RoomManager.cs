@@ -13,14 +13,16 @@ public class RoomManager : MonoBehaviour
 
     void Start()
     {
-        GridManager.instance.InitGrid();
+        if (GridManager.instance.grid == null)
+        {
+            GridManager.instance.InitGrid();
 
-        string scene = SceneManager.GetActiveScene().name;
+            string scene = SceneManager.GetActiveScene().name;
 
-        CellType[,] room = GetRoomLayout(scene);
+            CellType[,] room = GetRoomLayout(scene);
 
-        ApplyRoom(room);
-
+            ApplyRoom(room);
+        }
         FindObjectOfType<GridVisualizer>().GenerateVisuals();
     }
 

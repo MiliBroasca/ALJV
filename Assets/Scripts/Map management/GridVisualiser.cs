@@ -37,6 +37,7 @@ public class GridVisualizer : MonoBehaviour
             }
         }
     }
+
     void SetupDoor(GameObject doorObj, string scene, int x, int y)
     {
         Door door = doorObj.GetComponent<Door>();
@@ -54,7 +55,7 @@ public class GridVisualizer : MonoBehaviour
 
         door.entryPoint = entry;
 
-        // 🔥 aici legăm camerele (pe baza schemei tale)
+        // aici legăm camerele (pe baza schemei tale)
 
         if (scene == "RoomA")
         {

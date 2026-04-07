@@ -6,7 +6,7 @@ public class GridManager : MonoBehaviour
     public int width = 7;
     public int height = 7;
 
-    public CellType[,] grid;
+    public CellType[,] grid = null;
 
     public static GridManager instance;
 
