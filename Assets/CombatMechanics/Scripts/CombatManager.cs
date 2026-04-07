@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CombatManager : MonoBehaviour
 {
@@ -99,10 +100,15 @@ public class CombatManager : MonoBehaviour
         if (playerCombatData.health <= 0)
         {
             Debug.Log("Player has been defeated. Game Over.");
+            
         }
         else if (enemyCombatData.health <= 0)
         {
             Debug.Log("Enemy has been defeated. You win!");
+            ScoreManager.instance.health = playerCombatData.health; // Update health in ScoreManager
+            ScoreManager.instance.AddScore(20); // Reward player with score for winning combat
+            yield return new WaitForSeconds(3f); // Wait before returning to main game
+            SceneManager.LoadScene(ScoreManager.instance.currentScene); // Return to previous scene
         }
     }
 

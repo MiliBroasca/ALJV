@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        position = ScoreManager.instance.playerPosition;
         UpdatePosition();
     }
 
@@ -44,9 +45,15 @@ public class Player : MonoBehaviour
             ScoreManager.instance.AddScore(10);
             GridManager.instance.grid[position.x, position.y] = CellType.Empty;
         }
+        // integrate enemy combat
         if (cell == CellType.Enemy)
+        {
             Debug.Log("Enemy!");
-
+            ScoreManager.instance.playerPosition = position;
+            ScoreManager.instance.currentScene = SceneManager.GetActiveScene().name;
+            GridManager.instance.grid[position.x, position.y] = CellType.Empty; // clear enemy
+            SceneManager.LoadScene("CombatScene");
+        }
         if (cell == CellType.Door)
             Debug.Log("Door!");
 
@@ -66,6 +73,8 @@ public class Player : MonoBehaviour
 
         if (cell == CellType.Door)
         {
+            ScoreManager.instance.playerPosition = new Vector2Int(0, 0); // reset position for next scene
+
             string nextScene = GridManager.instance.GetNextScene(pos);
 
             if (nextScene != null)

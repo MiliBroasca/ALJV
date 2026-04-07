@@ -56,7 +56,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    // 👇 AICI începi să lipești camerele
+    // camerele
 
     CellType[,] RoomA()
     {

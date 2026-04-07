@@ -9,6 +9,11 @@ public class ScoreManager : MonoBehaviour
     public int score = 0;
     public TextMeshProUGUI scoreText;
 
+    public int health = 100;
+    public int maxHealth = 100;
+    public Vector2Int playerPosition = new Vector2Int(0, 0);
+    public string currentScene;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -20,7 +25,6 @@ public class ScoreManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // 🔥 ascultă schimbarea scenei
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -41,7 +45,6 @@ public class ScoreManager : MonoBehaviour
             scoreText.text = "Score: " + score;
     }
 
-    // 🔥 CHEIA PROBLEMEI
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateUI(); // forțează refresh UI după schimbare scenă

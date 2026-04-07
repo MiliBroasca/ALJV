@@ -23,6 +23,10 @@ public class PlayerCombatData : MonoBehaviour
         combatManager = CombatManager.Instance;
         if (combatManager != null)
             combatManager.newTurn += HandleNewTurn;
+        {
+            health = ScoreManager.instance.health;
+            maxHealth = ScoreManager.instance.maxHealth;
+        }
     }
 
     private void OnDisable()
@@ -60,7 +64,18 @@ public class PlayerCombatData : MonoBehaviour
 
     public void Heal(int healAmount)
     {
+        if (ScoreManager.instance.score < 3)
+        {
+            Debug.Log("Not enough score to heal! You need at least 3 points.");
+            return;
+        }
+        if (health >= maxHealth)
+        {
+            Debug.Log("Health is already full!");
+            return;
+        }
         health = Mathf.Min(health + healAmount, maxHealth);
+        ScoreManager.instance.AddScore(-3); // 3 puncte pentru a se vindeca
         modifyHealth?.Invoke();
     }
 
