@@ -55,7 +55,7 @@ public class GridVisualizer : MonoBehaviour
 
         door.entryPoint = entry;
 
-        // aici legăm camerele (pe baza schemei tale)
+        
 
         if (scene == "RoomA")
         {
@@ -133,10 +133,10 @@ public class GridVisualizer : MonoBehaviour
             else if (y == 6) door.nextScene = "RoomJ";
             else if (y == 0) door.nextScene = "RoomK";
         }
-        if (door.nextScene == null || door.nextScene == "")
-        {
-            Debug.LogWarning("Door not configured correctly at: " + x + "," + y + " in " + scene);
-        }
+        //if (door.nextScene == null || door.nextScene == "")
+        //{
+           // Debug.LogWarning("Door not configured correctly at: " + x + "," + y + " in " + scene);
+        //}
     }
 
     GameObject GetPrefab(CellType type)
