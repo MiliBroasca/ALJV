@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
@@ -10,6 +11,8 @@ public class RoomManager : MonoBehaviour
     CellType EN = CellType.Enemy;
     CellType R = CellType.Reward;
     CellType B = CellType.Boss;
+
+    public Action generatedGrid;
 
     void Start()
     {
@@ -24,6 +27,7 @@ public class RoomManager : MonoBehaviour
             ApplyRoom(room);
         }
         FindObjectOfType<GridVisualizer>().GenerateVisuals();
+        generatedGrid?.Invoke();
     }
 
     CellType[,] GetRoomLayout(string scene)
@@ -31,6 +35,7 @@ public class RoomManager : MonoBehaviour
         switch (scene)
         {
             case "RoomA": return RoomA();
+            case "RoomAGenetic": return RoomA();
             case "RoomB": return RoomB();
             case "RoomC": return RoomC();
             case "RoomD": return RoomD();
