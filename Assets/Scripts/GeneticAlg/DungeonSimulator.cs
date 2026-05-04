@@ -1,31 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public class DungeonSimulator
 {
-    private CellType[,] originalGrid;
-    private int width;
-    private int height;
+    private readonly int width = 7;
+    private readonly int height = 7;
+
+    private string startRoom;
     private Vector2Int startPosition;
     private int startHealth;
 
-    public DungeonSimulator(CellType[,] grid, Vector2Int startPos, int health)
+    private Dictionary<string, CellType[,]> dungeonRooms = new Dictionary<string, CellType[,]>();
+
+
+    public DungeonSimulator(string startRoom, Vector2Int startPos, int health)
     {
-        originalGrid = CopyGrid(grid);
-        width = grid.GetLength(0);
-        height = grid.GetLength(1);
-        startPosition = startPos;
-        startHealth = health;
+        this.startRoom = startRoom;
+        this.startPosition = startPos;
+        this.startHealth = health;
+
+        // Define Rooms
+        dungeonRooms["RoomA"] = RoomManager.RoomA();
+        dungeonRooms["RoomB"] = RoomManager.RoomB();
+        dungeonRooms["RoomC"] = RoomManager.RoomC();
+        dungeonRooms["RoomD"] = RoomManager.RoomD();
+        dungeonRooms["RoomE"] = RoomManager.RoomE();
+        dungeonRooms["RoomF"] = RoomManager.RoomF();
+        dungeonRooms["RoomG"] = RoomManager.RoomG();
+        dungeonRooms["RoomH"] = RoomManager.RoomH();
+        dungeonRooms["RoomI"] = RoomManager.RoomI();
+        dungeonRooms["RoomJ"] = RoomManager.RoomJ();
+        dungeonRooms["RoomK"] = RoomManager.RoomK();
+        dungeonRooms["RoomL"] = RoomManager.RoomL();
     }
 
     public SimulationResult EvaluateGenome(Genome genome)
     {
-        CellType[,] simGrid = CopyGrid(originalGrid);
+        Dictionary<string, CellType[,]> simRooms = CopyRooms(dungeonRooms);
 
         SimState state = new SimState
         {
+            currentRoom = startRoom,
             position = startPosition,
             health = startHealth,
             score = 0,
@@ -48,13 +65,14 @@ public class DungeonSimulator
             state.position = newPos;
             state.steps++;
 
-            CellType cell = simGrid[newPos.x, newPos.y];
+            CellType[,] currentRoomGrid = simRooms[state.currentRoom];
+            CellType cell = currentRoomGrid[newPos.x, newPos.y];
 
             switch(cell)
             {
                 case CellType.Reward:
                     state.score += 10;
-                    simGrid[newPos.x, newPos.y] = CellType.Empty; // Consume reward
+                    currentRoomGrid[newPos.x, newPos.y] = CellType.Empty; // Consume reward
                     break;
 
                 case CellType.Trap:
@@ -66,7 +84,7 @@ public class DungeonSimulator
                     if (state.health > 0)
                     {
                         state.score += 15;
-                        simGrid[newPos.x, newPos.y] = CellType.Empty; // Defeat enemy
+                        currentRoomGrid[newPos.x, newPos.y] = CellType.Empty; // Defeat enemy
                     }
                     break;
                 case CellType.Boss:
@@ -83,8 +101,7 @@ public class DungeonSimulator
                     state.score += 50;
                     break;
                 case CellType.Door:
-                    state.score += 25; // Bonus for passing through doors
-                    state.reachedGoal = true; // Assume door leads to goal for simplicity
+                    HandleDoorTransition(state, newPos);
                     break;
             }
 
@@ -101,6 +118,41 @@ public class DungeonSimulator
         }
 
         return BuildResult(state);
+    }
+
+    private void HandleDoorTransition(SimState state, Vector2Int doorPos)
+    {
+        string nextRoom = GridManager.instance.GetNextScene(state.currentRoom, doorPos);
+
+        if (!string.IsNullOrEmpty(nextRoom))
+        {
+            state.score += 10;
+            state.currentRoom = nextRoom;
+            state.position = new Vector2Int(0, 0); // Reset position for new room
+        }
+        else
+        {
+            state.score -= 10;
+        }
+    }
+
+    private Dictionary<string, CellType[,]> CopyRooms(Dictionary<string, CellType[,]> dungeonRooms)
+    {
+        return new Dictionary<string, CellType[,]>
+        {
+            { "RoomA", CopyGrid(dungeonRooms["RoomA"]) },
+            { "RoomB", CopyGrid(dungeonRooms["RoomB"]) },
+            { "RoomC", CopyGrid(dungeonRooms["RoomC"]) },
+            { "RoomD", CopyGrid(dungeonRooms["RoomD"]) },
+            { "RoomE", CopyGrid(dungeonRooms["RoomE"]) },
+            { "RoomF", CopyGrid(dungeonRooms["RoomF"]) },
+            { "RoomG", CopyGrid(dungeonRooms["RoomG"]) },
+            { "RoomH", CopyGrid(dungeonRooms["RoomH"]) },
+            { "RoomI", CopyGrid(dungeonRooms["RoomI"]) },
+            { "RoomJ", CopyGrid(dungeonRooms["RoomJ"]) },
+            { "RoomK", CopyGrid(dungeonRooms["RoomK"]) },
+            { "RoomL", CopyGrid(dungeonRooms["RoomL"]) }
+        };
     }
 
     private SimulationResult BuildResult(SimState state)

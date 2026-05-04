@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
     public Vector2Int position;
+    public bool isMovingEnabled = false;
+
+    public Action arrivedAtBoss;
 
     void Start()
     {
@@ -13,10 +18,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W)) Move(Vector2Int.up);
-        if (Input.GetKeyDown(KeyCode.S)) Move(Vector2Int.down);
-        if (Input.GetKeyDown(KeyCode.A)) Move(Vector2Int.left);
-        if (Input.GetKeyDown(KeyCode.D)) Move(Vector2Int.right);
+        if (isMovingEnabled)
+        {
+            if (Input.GetKeyDown(KeyCode.W)) Move(Vector2Int.up);
+            if (Input.GetKeyDown(KeyCode.S)) Move(Vector2Int.down);
+            if (Input.GetKeyDown(KeyCode.A)) Move(Vector2Int.left);
+            if (Input.GetKeyDown(KeyCode.D)) Move(Vector2Int.right);
+        }
     }
 
     void Move(Vector2Int dir)
@@ -53,12 +61,12 @@ public class Player : MonoBehaviour
             ScoreManager.instance.playerPosition = position;
             ScoreManager.instance.currentScene = SceneManager.GetActiveScene().name;
             GridManager.instance.grid[position.x, position.y] = CellType.Empty; // clear enemy
-            FindObjectOfType<GridVisualizer>().GenerateVisuals(); // update visuals to show enemy removed
             // SceneManager.LoadScene("CombatScene");
             // For now, just simulate combat by giving a random outcome
             int damage = Random.Range(5, 15);
             ScoreManager.instance.TakeDamage(damage);
             ScoreManager.instance.AddScore(20); // reward for defeating enemy
+            FindObjectOfType<GridVisualizer>().GenerateVisuals(); // update visuals to show enemy removed
         }
         if (cell == CellType.Door)
             Debug.Log("Door!");
@@ -79,6 +87,11 @@ public class Player : MonoBehaviour
         CheckCurrentCell();
     }
 
+    public void MoveFromGenome(Vector2Int dir)
+    {
+        Move(dir);
+    }
+
     void UpdatePosition()
     {
         transform.position = GridManager.instance.GridToWorld(position);
@@ -92,6 +105,7 @@ public class Player : MonoBehaviour
         if (cell == CellType.Door)
         {
             ScoreManager.instance.playerPosition = new Vector2Int(0, 0); // reset position for next scene
+            position = new Vector2Int(0, 0); // reset position for next scene
 
             string nextScene = GridManager.instance.GetNextScene(pos);
 
@@ -104,6 +118,11 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Door without connection!");
             }
+        }
+
+        if (cell == CellType.Boss)
+        {
+            arrivedAtBoss?.Invoke();
         }
     }
 }

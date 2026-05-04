@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SimState
 {
+    public string currentRoom;
     public Vector2Int position;
     public int health;
     public int score;

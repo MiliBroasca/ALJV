@@ -4,13 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
 {
-    CellType E = CellType.Empty;
-    CellType T = CellType.Trap;
-    CellType S = CellType.Start;
-    CellType D = CellType.Door;
-    CellType EN = CellType.Enemy;
-    CellType R = CellType.Reward;
-    CellType B = CellType.Boss;
+    // Make these fields static so they can be accessed from static methods
+    static CellType E = CellType.Empty;
+    static CellType T = CellType.Trap;
+    static CellType S = CellType.Start;
+    static CellType D = CellType.Door;
+    static CellType EN = CellType.Enemy;
+    static CellType R = CellType.Reward;
+    static CellType B = CellType.Boss;
 
     public Action generatedGrid;
 
@@ -65,7 +66,7 @@ public class RoomManager : MonoBehaviour
 
     // camerele
 
-    CellType[,] RoomA()
+    public static CellType[,] RoomA()
     {
         return new CellType[7, 7]
         {
@@ -78,7 +79,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,D,E,E,E}
         };
     }
-    CellType[,] RoomB()
+    public static CellType[,] RoomB()
     {
         return new CellType[7, 7]
         {
@@ -91,7 +92,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,D,E,E,E}
         };
     }
-    CellType[,] RoomC()
+    public static CellType[,] RoomC()
     {
         return new CellType[7, 7]
         {
@@ -104,7 +105,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomD()
+    public static CellType[,] RoomD()
     {
         return new CellType[7, 7]
         {
@@ -117,7 +118,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomE()
+    public static CellType[,] RoomE()
     {
         return new CellType[7, 7]
         {
@@ -130,7 +131,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomF()
+    public static CellType[,] RoomF()
     {
         return new CellType[7, 7]
         {
@@ -143,7 +144,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomG()
+    public static CellType[,] RoomG()
     {
         return new CellType[7, 7]
         {
@@ -156,7 +157,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,D,E,E,E}
         };
     }
-    CellType[,] RoomH()
+    public static CellType[,] RoomH()
     {
         return new CellType[7, 7]
         {
@@ -169,7 +170,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomI()
+    public static CellType[,] RoomI()
     {
         return new CellType[7, 7]
         {
@@ -182,7 +183,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomJ()
+    public static CellType[,] RoomJ()
     {
         return new CellType[7, 7]
         {
@@ -195,7 +196,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomK()
+    public static CellType[,] RoomK()
     {
         return new CellType[7, 7]
         {
@@ -208,7 +209,7 @@ public class RoomManager : MonoBehaviour
         {E,E,E,E,E,E,E}
         };
     }
-    CellType[,] RoomL()
+    public static CellType[,] RoomL()
     {
         return new CellType[7, 7]
         {

@@ -13,6 +13,8 @@ public class GridVisualizer : MonoBehaviour
 
     public void GenerateVisuals()
     {
+        ClearVisuals();
+
         CellType[,] grid = GridManager.instance.grid;
         string currentScene = SceneManager.GetActiveScene().name;
 
@@ -35,6 +37,14 @@ public class GridVisualizer : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private void ClearVisuals()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
         }
     }
 

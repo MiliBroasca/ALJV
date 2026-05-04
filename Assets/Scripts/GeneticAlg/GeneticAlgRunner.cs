@@ -5,12 +5,13 @@ using UnityEngine;
 public class GeneticAlgRunner : MonoBehaviour
 {
     public int populationSize = 50;
-    public int genomeLength = 20;
+    public int genomeLength = 80;
     public int generations = 50;
     public float mutationRate = 0.08f;
     public int eliteCount = 2;
 
     public RoomManager roomManager;
+    public GenomePlayback genomePlayback;
 
     private void OnEnable()
     {
@@ -24,10 +25,9 @@ public class GeneticAlgRunner : MonoBehaviour
 
     public void StartAlg()
     {
-        CellType[,] grid = GridManager.instance.grid;
         Vector2Int startPos = new Vector2Int(0, 0);
 
-        DungeonSimulator simulator = new DungeonSimulator(grid, startPos, 100);
+        DungeonSimulator simulator = new DungeonSimulator("RoomA", startPos, 100);
         List<Genome> population = GeneticUtils.CreatePopulation(populationSize, genomeLength);
 
         Genome bestEver = null;
@@ -68,6 +68,8 @@ public class GeneticAlgRunner : MonoBehaviour
 
         Debug.Log("Best ever fitness: " + bestEver.fitness);
         DebugBestGenome(bestEver);
+
+        genomePlayback.PlayGenome(bestEver.genes);
     }
 
     private Genome CloneGenome(Genome original)
