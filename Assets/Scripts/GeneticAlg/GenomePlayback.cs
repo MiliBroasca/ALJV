@@ -36,9 +36,9 @@ public class GenomePlayback : MonoBehaviour
     {
         foreach (MoveGene gene in genes)
         {
+            yield return new WaitForSeconds(stepDelay);
             Vector2Int dir = GeneToDirection(gene);
             player.MoveFromGenome(dir);
-            yield return new WaitForSeconds(stepDelay);
         }
     }
 

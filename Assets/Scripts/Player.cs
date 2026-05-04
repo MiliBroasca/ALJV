@@ -106,6 +106,7 @@ public class Player : MonoBehaviour
         {
             ScoreManager.instance.playerPosition = new Vector2Int(0, 0); // reset position for next scene
             position = new Vector2Int(0, 0); // reset position for next scene
+            // UpdatePosition();
 
             string nextScene = GridManager.instance.GetNextScene(pos);
 
@@ -113,6 +114,7 @@ public class Player : MonoBehaviour
             {
                 GridManager.instance.grid = null; // clear grid
                 SceneManager.LoadScene(nextScene);
+                UpdatePosition();
             }
             else
             {

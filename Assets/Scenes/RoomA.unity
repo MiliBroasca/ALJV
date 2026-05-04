@@ -153,6 +153,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreText: {fileID: 768801006}
+  health: 100
+  maxHealth: 100
+  playerPosition: {x: 0, y: 0}
+  currentScene: 
+  isBossFight: 0
 --- !u!4 &131912876
 Transform:
   m_ObjectHideFlags: 0
@@ -746,7 +751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72bd5efefca3678448cbe1ca016e498e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 768801006}
 --- !u!4 &1053371348
 Transform:
   m_ObjectHideFlags: 0
@@ -887,6 +891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
+  isMovingEnabled: 1
 --- !u!61 &1844603946
 BoxCollider2D:
   m_ObjectHideFlags: 0
