@@ -53,7 +53,7 @@ public class GridManager : MonoBehaviour
         string scene = SceneManager.GetActiveScene().name;
 
         // ROOM A
-        if (scene == "RoomA")
+        if (scene == "RoomA" || scene == "RoomAGenetic")
         {
             if (pos == new Vector2Int(0, 3)) return "RoomB";
             if (pos == new Vector2Int(3, 6)) return "RoomC";

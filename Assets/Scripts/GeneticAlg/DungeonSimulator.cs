@@ -59,10 +59,10 @@ public class DungeonSimulator
 
                 case CellType.Trap:
                     state.score -= 5;
-                    state.health -= 10;
                     break;
                 case CellType.Enemy:
-                    state.health -= 20;
+                    // state.health -= Random.Range(5, 15);
+                    state.health -= 10; // Fixed damage for simplicity
                     if (state.health > 0)
                     {
                         state.score += 15;
@@ -70,7 +70,8 @@ public class DungeonSimulator
                     }
                     break;
                 case CellType.Boss:
-                    state.health -= 40;
+                    // state.health -= Random.Range(10, 30);
+                    state.health -= 20; // Fixed damage for simplicity
                     if (state.health > 0)
                     {
                         state.score += 50;

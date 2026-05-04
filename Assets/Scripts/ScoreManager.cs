@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class ScoreManager : MonoBehaviour
     public Vector2Int playerPosition = new Vector2Int(0, 0);
     public string currentScene;
     public bool isBossFight = false;
+
+    public Action isDead;
 
     void Awake()
     {
@@ -48,7 +51,17 @@ public class ScoreManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        UpdateUI(); // forțează refresh UI după schimbare scenă
+        UpdateUI(); // refresh UI
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            health = 0;
+            isDead?.Invoke();
+        }
     }
 
     void OnDestroy()

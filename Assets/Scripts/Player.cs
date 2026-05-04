@@ -53,7 +53,12 @@ public class Player : MonoBehaviour
             ScoreManager.instance.playerPosition = position;
             ScoreManager.instance.currentScene = SceneManager.GetActiveScene().name;
             GridManager.instance.grid[position.x, position.y] = CellType.Empty; // clear enemy
-            SceneManager.LoadScene("CombatScene");
+            FindObjectOfType<GridVisualizer>().GenerateVisuals(); // update visuals to show enemy removed
+            // SceneManager.LoadScene("CombatScene");
+            // For now, just simulate combat by giving a random outcome
+            int damage = Random.Range(5, 15);
+            ScoreManager.instance.TakeDamage(damage);
+            ScoreManager.instance.AddScore(20); // reward for defeating enemy
         }
         if (cell == CellType.Door)
             Debug.Log("Door!");
@@ -64,7 +69,10 @@ public class Player : MonoBehaviour
             ScoreManager.instance.currentScene = SceneManager.GetActiveScene().name;
             GridManager.instance.grid[position.x, position.y] = CellType.Empty; // clear boss
             ScoreManager.instance.isBossFight = true;
-            SceneManager.LoadScene("CombatScene");
+            // SceneManager.LoadScene("CombatScene");
+            int damage = Random.Range(10, 30);
+            ScoreManager.instance.TakeDamage(damage);
+            ScoreManager.instance.AddScore(30);
         }
 
         UpdatePosition();

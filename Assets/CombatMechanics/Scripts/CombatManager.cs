@@ -86,15 +86,6 @@ public class CombatManager : MonoBehaviour
             {
                 yield return null; // Wait for player input (e.g., button press) to perform an action
             }
-            //Debug.Log("Turn " + turn);
-            //PlayerAttack();
-            //if (enemyCombatData.health <= 0)
-            //{
-            //    Debug.Log("Enemy defeated!");
-            //    break;
-            //}
-            
-            //yield return new WaitForSeconds(2f); // Simulate time between turns
         }
 
         if (playerCombatData.health <= 0)
