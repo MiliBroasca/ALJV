@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GenomePlayback : MonoBehaviour
 {
     public Player player;
-    public float stepDelay = 0.5f;
+    public float stepDelay = 0.7f;
     private Coroutine playbackCoroutine;
 
     private void Awake()
@@ -36,9 +36,10 @@ public class GenomePlayback : MonoBehaviour
     {
         foreach (MoveGene gene in genes)
         {
-            yield return new WaitForSeconds(stepDelay);
+            yield return new WaitForSeconds(stepDelay / 2);
             Vector2Int dir = GeneToDirection(gene);
             player.MoveFromGenome(dir);
+            yield return new WaitForSeconds(stepDelay / 2);
         }
     }
 

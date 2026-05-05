@@ -81,6 +81,7 @@ public class Player : MonoBehaviour
             int damage = Random.Range(10, 30);
             ScoreManager.instance.TakeDamage(damage);
             ScoreManager.instance.AddScore(30);
+            arrivedAtBoss?.Invoke();
         }
 
         UpdatePosition();
@@ -122,9 +123,9 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (cell == CellType.Boss)
-        {
-            arrivedAtBoss?.Invoke();
-        }
+        //if (cell == CellType.Boss)
+        //{
+        //    arrivedAtBoss?.Invoke();
+        //}
     }
 }

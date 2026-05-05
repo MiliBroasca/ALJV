@@ -58,7 +58,7 @@ public class DungeonSimulator
 
             if (!IsInsideGrid(newPos))
             {
-                state.score -= 1;
+                state.score -= 2;
                 continue; // Ignore moves that go out of bounds
             }
 
