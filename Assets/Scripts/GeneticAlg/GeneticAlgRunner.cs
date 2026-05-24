@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,22 +16,26 @@ public class GeneticAlgRunner : MonoBehaviour
 
     private void OnEnable()
     {
-        roomManager.generatedGrid += StartAlg;
+        if (roomManager != null)
+            roomManager.generatedGrid += StartAlg;
     }
 
     private void OnDisable()
     {
-        roomManager.generatedGrid -= StartAlg;
+        if (roomManager != null)
+            roomManager.generatedGrid -= StartAlg;
     }
 
     public void StartAlg()
     {
         Vector2Int startPos = new Vector2Int(0, 0);
+        string startRoom = "RoomA";
 
-        DungeonSimulator simulator = new DungeonSimulator("RoomA", startPos, 100);
+        DungeonSimulator simulator = new DungeonSimulator(startRoom, startPos, 100);
         List<Genome> population = GeneticUtils.CreatePopulation(populationSize, genomeLength);
 
         Genome bestEver = null;
+        List<GenerationLogEntry> generationStats = new List<GenerationLogEntry>();
 
         for (int generation = 0; generation < generations; generation++)
         {
@@ -46,6 +51,12 @@ public class GeneticAlgRunner : MonoBehaviour
                 bestEver = CloneGenome(population[0]);
 
             Debug.Log($"Generation {generation}: Best fitness = {population[0].fitness}");
+
+            generationStats.Add(new GenerationLogEntry
+            {
+                generation = generation,
+                bestFitness = population[0].fitness
+            });
 
             List<Genome> nextPopulation = new List<Genome>();
 
@@ -69,7 +80,37 @@ public class GeneticAlgRunner : MonoBehaviour
         Debug.Log("Best ever fitness: " + bestEver.fitness);
         DebugBestGenome(bestEver);
 
-        genomePlayback.PlayGenome(bestEver.genes);
+        SimulationResult bestResult = simulator.EvaluateGenome(bestEver);
+        SaveLog(bestEver, bestResult, generationStats, startRoom);
+
+        if (genomePlayback != null)
+            genomePlayback.PlayGenome(bestEver.genes);
+    }
+
+    private void SaveLog(Genome bestEver, SimulationResult bestResult, List<GenerationLogEntry> generationStats, string startRoom)
+    {
+        GALog log = new GALog
+        {
+            timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            startRoom = startRoom,
+            populationSize = populationSize,
+            genomeLength = genomeLength,
+            generations = generations,
+            mutationRate = mutationRate,
+            eliteCount = eliteCount,
+
+            bestFitness = bestEver.fitness,
+            finalScore = bestResult.finalScore,
+            remainingHealth = bestResult.remainingHealth,
+            stepsUsed = bestResult.stepsUsed,
+            died = bestResult.died,
+            reachedGoal = bestResult.reachedGoal,
+
+            bestGenome = bestEver.genes.Select(g => g.ToString()).ToList(),
+            generationStats = generationStats
+        };
+
+        GAJsonLogger.SaveRunLog(log);
     }
 
     private Genome CloneGenome(Genome original)

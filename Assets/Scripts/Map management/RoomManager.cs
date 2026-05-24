@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
 {
-    // Make these fields static so they can be accessed from static methods
     static CellType E = CellType.Empty;
     static CellType T = CellType.Trap;
     static CellType S = CellType.Start;
@@ -13,7 +12,21 @@ public class RoomManager : MonoBehaviour
     static CellType R = CellType.Reward;
     static CellType B = CellType.Boss;
 
+    public enum MapVariant
+    {
+        Original,
+        Variant2
+    }
+
+    [SerializeField] private MapVariant currentMapVariant = MapVariant.Original;
+    public static MapVariant SelectedMapVariant { get; private set; }
+
     public Action generatedGrid;
+
+    private void Awake()
+    {
+        SelectedMapVariant = currentMapVariant;
+    }
 
     void Start()
     {
@@ -22,11 +35,17 @@ public class RoomManager : MonoBehaviour
             GridManager.instance.InitGrid();
 
             string scene = SceneManager.GetActiveScene().name;
-
             CellType[,] room = GetRoomLayout(scene);
+
+            if (room == null)
+            {
+                Debug.LogError("No room layout found for scene: " + scene);
+                return;
+            }
 
             ApplyRoom(room);
         }
+
         FindObjectOfType<GridVisualizer>().GenerateVisuals();
         generatedGrid?.Invoke();
     }
@@ -35,8 +54,10 @@ public class RoomManager : MonoBehaviour
     {
         switch (scene)
         {
-            case "RoomA": return RoomA();
-            case "RoomAGenetic": return RoomA();
+            case "RoomA":
+            case "RoomAGenetic":
+                return RoomA();
+
             case "RoomB": return RoomB();
             case "RoomC": return RoomC();
             case "RoomD": return RoomD();
@@ -64,162 +85,407 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    // camerele
-
     public static CellType[,] RoomA()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,D,E,E,E},
-        {E,EN,E,E,E,R,E},
-        {E,E,T,E,E,E,E},
-        {E,E,E,EN,E,E,D},
-        {E,E,E,E,E,E,E},
-        {E,R,E,E,T,E,E},
-        {E,E,E,D,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomA_Original() : RoomA_Variant2();
     }
+
     public static CellType[,] RoomB()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,E,EN,E,R,E,E},
-        {E,T,E,E,E,T,E},
-        {E,E,E,E,EN,E,D},
-        {E,E,E,E,E,E,E},
-        {E,R,E,EN,E,E,E},
-        {E,E,E,D,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomB_Original() : RoomB_Variant2();
     }
+
     public static CellType[,] RoomC()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,R,E,E,E,EN,E},
-        {E,E,T,E,T,E,E},
-        {E,E,E,E,E,E,D},
-        {E,EN,E,E,E,E,E},
-        {E,E,E,R,E,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomC_Original() : RoomC_Variant2();
     }
+
     public static CellType[,] RoomD()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,D,E,E,E},
-        {E,EN,E,E,E,EN,E},
-        {E,E,T,E,E,E,E},
-        {E,E,E,R,E,E,D},
-        {E,E,E,E,E,E,E},
-        {E,T,E,E,E,R,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomD_Original() : RoomD_Variant2();
     }
+
     public static CellType[,] RoomE()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,E,E,E,EN,E,E},
-        {E,T,E,R,E,T,E},
-        {E,E,E,E,E,E,D},
-        {E,E,EN,E,E,E,E},
-        {E,E,E,E,R,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomE_Original() : RoomE_Variant2();
     }
+
     public static CellType[,] RoomF()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,EN,E,E,E,E,E},
-        {E,E,T,E,EN,E,E},
-        {E,E,E,E,E,E,D},
-        {E,E,E,R,E,E,E},
-        {E,E,E,E,T,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomF_Original() : RoomF_Variant2();
     }
+
     public static CellType[,] RoomG()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,E,R,E,E,EN,E},
-        {E,T,E,E,T,E,E},
-        {E,E,E,EN,E,E,D},
-        {E,E,E,E,E,E,E},
-        {E,EN,E,E,E,R,E},
-        {E,E,E,D,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomG_Original() : RoomG_Variant2();
     }
+
     public static CellType[,] RoomH()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,EN,E,E,E,E,E},
-        {E,E,T,E,R,E,E},
-        {E,E,E,E,EN,E,D},
-        {E,E,E,E,E,E,E},
-        {E,E,R,E,E,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomH_Original() : RoomH_Variant2();
     }
+
     public static CellType[,] RoomI()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,E,E,E,EN,E,E},
-        {E,T,E,E,E,T,E},
-        {E,E,E,R,E,E,D},
-        {E,E,EN,E,E,E,E},
-        {E,E,E,E,R,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomI_Original() : RoomI_Variant2();
     }
+
     public static CellType[,] RoomJ()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,EN,E,R,E,E,E},
-        {E,E,T,E,E,E,E},
-        {S,E,E,E,E,EN,D},
-        {E,E,E,E,E,E,E},
-        {E,R,E,E,T,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomJ_Original() : RoomJ_Variant2();
     }
+
     public static CellType[,] RoomK()
     {
-        return new CellType[7, 7]
-        {
-        {S,E,E,E,E,E,E},
-        {E,E,EN,E,E,E,E},
-        {E,T,E,R,E,T,E},
-        {E,E,E,E,E,E,D},
-        {E,E,E,EN,E,E,E},
-        {E,E,E,E,R,E,E},
-        {E,E,E,E,E,E,E}
-        };
+        return SelectedMapVariant == MapVariant.Original ? RoomK_Original() : RoomK_Variant2();
     }
+
     public static CellType[,] RoomL()
+    {
+        return SelectedMapVariant == MapVariant.Original ? RoomL_Original() : RoomL_Variant2();
+    }
+
+    // =========================
+    // ORIGINAL MAPS
+    // =========================
+
+    static CellType[,] RoomA_Original()
     {
         return new CellType[7, 7]
         {
-        {S,E,E,E,E,E,E},
-        {E,E,E,E,E,E,E},
-        {E,E,T,E,T,E,E},
-        {E,E,E,B,E,E,E},
-        {E,E,T,E,T,E,E},
-        {E,E,E,E,E,E,E},
-        {E,E,E,E,E,E,E}
+            {S,E,E,D,E,E,E},
+            {E,EN,E,E,E,R,E},
+            {E,E,T,E,E,E,E},
+            {E,E,E,EN,E,E,D},
+            {E,E,E,E,E,E,E},
+            {E,R,E,E,T,E,E},
+            {E,E,E,D,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomB_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,EN,E,R,E,E},
+            {E,T,E,E,E,T,E},
+            {E,E,E,E,EN,E,D},
+            {E,E,E,E,E,E,E},
+            {E,R,E,EN,E,E,E},
+            {E,E,E,D,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomC_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,R,E,E,E,EN,E},
+            {E,E,T,E,T,E,E},
+            {E,E,E,E,E,E,D},
+            {E,EN,E,E,E,E,E},
+            {E,E,E,R,E,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomD_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,D,E,E,E},
+            {E,EN,E,E,E,EN,E},
+            {E,E,T,E,E,E,E},
+            {E,E,E,R,E,E,D},
+            {E,E,E,E,E,E,E},
+            {E,T,E,E,E,R,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomE_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,E,E,EN,E,E},
+            {E,T,E,R,E,T,E},
+            {E,E,E,E,E,E,D},
+            {E,E,EN,E,E,E,E},
+            {E,E,E,E,R,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomF_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,E,E,E,E},
+            {E,E,T,E,EN,E,E},
+            {E,E,E,E,E,E,D},
+            {E,E,E,R,E,E,E},
+            {E,E,E,E,T,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomG_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,R,E,E,EN,E},
+            {E,T,E,E,T,E,E},
+            {E,E,E,EN,E,E,D},
+            {E,E,E,E,E,E,E},
+            {E,EN,E,E,E,R,E},
+            {E,E,E,D,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomH_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,E,E,E,E},
+            {E,E,T,E,R,E,E},
+            {E,E,E,E,EN,E,D},
+            {E,E,E,E,E,E,E},
+            {E,E,R,E,E,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomI_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,E,E,EN,E,E},
+            {E,T,E,E,E,T,E},
+            {E,E,E,R,E,E,D},
+            {E,E,EN,E,E,E,E},
+            {E,E,E,E,R,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomJ_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,R,E,E,E},
+            {E,E,T,E,E,E,E},
+            {S,E,E,E,E,EN,D},
+            {E,E,E,E,E,E,E},
+            {E,R,E,E,T,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomK_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,EN,E,E,E,E},
+            {E,T,E,R,E,T,E},
+            {E,E,E,E,E,E,D},
+            {E,E,E,EN,E,E,E},
+            {E,E,E,E,R,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomL_Original()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,E,E,E,E,E},
+            {E,E,T,E,T,E,E},
+            {E,E,E,B,E,E,E},
+            {E,E,T,E,T,E,E},
+            {E,E,E,E,E,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    // =========================
+    // VARIANT 2 MAPS
+    // =========================
+
+    static CellType[,] RoomA_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,D,E,E,E},
+            {E,E,R,E,EN,E,E},
+            {E,T,E,E,E,T,E},
+            {E,E,E,R,E,E,D},
+            {E,EN,E,E,E,E,E},
+            {E,E,E,T,E,R,E},
+            {E,E,E,D,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomB_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,R,E,E,EN,E,E},
+            {E,E,T,E,E,E,E},
+            {E,E,EN,E,E,R,D},
+            {E,T,E,E,E,T,E},
+            {E,E,E,R,EN,E,E},
+            {E,E,E,D,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomC_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,EN,E,R,E,E},
+            {E,T,E,E,E,T,E},
+            {E,E,E,R,E,E,D},
+            {E,E,T,E,EN,E,E},
+            {E,R,E,E,E,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomD_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,D,E,E,E},
+            {E,R,E,E,E,EN,E},
+            {E,E,T,E,T,E,E},
+            {E,EN,E,E,R,E,D},
+            {E,E,E,E,E,E,E},
+            {E,T,E,EN,E,R,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomE_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,R,E,E,E},
+            {E,E,T,E,E,T,E},
+            {E,E,E,EN,E,E,D},
+            {E,R,E,E,E,E,E},
+            {E,E,T,E,R,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomF_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,R,E,E,EN,E},
+            {E,T,E,E,E,E,E},
+            {E,E,E,EN,E,R,D},
+            {E,E,T,E,E,E,E},
+            {E,E,E,E,T,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomG_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,E,R,E,E},
+            {E,E,T,E,E,T,E},
+            {E,R,E,E,EN,E,D},
+            {E,E,E,T,E,E,E},
+            {E,E,E,E,R,EN,E},
+            {E,E,E,D,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomH_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,R,E,E,EN,E,E},
+            {E,E,T,E,E,T,E},
+            {E,E,E,R,E,EN,D},
+            {E,E,E,E,E,E,E},
+            {E,T,E,E,R,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomI_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,E,R,E,E},
+            {E,E,T,E,E,T,E},
+            {E,E,R,E,E,E,D},
+            {E,T,E,EN,E,E,E},
+            {E,E,E,E,E,R,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomJ_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,R,E,E,EN,E,E},
+            {E,T,E,E,E,T,E},
+            {S,E,E,R,E,EN,D},
+            {E,E,E,E,E,E,E},
+            {E,E,EN,E,R,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomK_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,EN,E,E,R,E,E},
+            {E,E,T,E,E,T,E},
+            {E,R,E,E,E,E,D},
+            {E,E,E,T,EN,E,E},
+            {E,E,R,E,E,E,E},
+            {E,E,E,E,E,E,E}
+        };
+    }
+
+    static CellType[,] RoomL_Variant2()
+    {
+        return new CellType[7, 7]
+        {
+            {S,E,E,E,E,E,E},
+            {E,E,R,E,E,E,E},
+            {E,T,E,E,E,T,E},
+            {E,E,EN,B,EN,E,E},
+            {E,T,E,E,E,T,E},
+            {E,E,E,R,E,E,E},
+            {E,E,E,E,E,E,E}
         };
     }
 }

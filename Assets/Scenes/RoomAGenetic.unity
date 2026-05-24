@@ -1033,6 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42dc502e802b950408b8ef95c67591dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMapVariant: 0
 --- !u!4 &2061150949
 Transform:
   m_ObjectHideFlags: 0

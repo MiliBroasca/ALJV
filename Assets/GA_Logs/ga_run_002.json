@@ -1,0 +1,300 @@
+{
+    "algorithm": "GeneticAlgorithm",
+    "timestamp": "2026-05-24 15:01:58",
+    "startRoom": "RoomA",
+    "populationSize": 50,
+    "genomeLength": 80,
+    "generations": 50,
+    "mutationRate": 0.07999999821186066,
+    "eliteCount": 2,
+    "bestFitness": 96.5,
+    "finalScore": 129,
+    "remainingHealth": 30,
+    "stepsUsed": 77,
+    "died": false,
+    "reachedGoal": false,
+    "bestGenome": [
+        "Right",
+        "Up",
+        "Left",
+        "Right",
+        "Up",
+        "Up",
+        "Left",
+        "Up",
+        "Right",
+        "Left",
+        "Up",
+        "Right",
+        "Right",
+        "Right",
+        "Left",
+        "Right",
+        "Left",
+        "Right",
+        "Up",
+        "Up",
+        "Right",
+        "Left",
+        "Up",
+        "Right",
+        "Right",
+        "Right",
+        "Left",
+        "Down",
+        "Left",
+        "Down",
+        "Right",
+        "Right",
+        "Right",
+        "Right",
+        "Left",
+        "Down",
+        "Right",
+        "Up",
+        "Right",
+        "Left",
+        "Down",
+        "Left",
+        "Right",
+        "Up",
+        "Down",
+        "Left",
+        "Up",
+        "Left",
+        "Right",
+        "Up",
+        "Down",
+        "Up",
+        "Left",
+        "Up",
+        "Up",
+        "Left",
+        "Right",
+        "Right",
+        "Up",
+        "Right",
+        "Right",
+        "Down",
+        "Up",
+        "Left",
+        "Up",
+        "Left",
+        "Right",
+        "Right",
+        "Up",
+        "Left",
+        "Left",
+        "Up",
+        "Right",
+        "Down",
+        "Down",
+        "Right",
+        "Up",
+        "Right",
+        "Down",
+        "Left"
+    ],
+    "generationStats": [
+        {
+            "generation": 0,
+            "bestFitness": 37.0
+        },
+        {
+            "generation": 1,
+            "bestFitness": 42.0
+        },
+        {
+            "generation": 2,
+            "bestFitness": 54.0
+        },
+        {
+            "generation": 3,
+            "bestFitness": 54.0
+        },
+        {
+            "generation": 4,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 5,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 6,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 7,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 8,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 9,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 10,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 11,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 12,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 13,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 14,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 15,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 16,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 17,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 18,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 19,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 20,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 21,
+            "bestFitness": 84.0
+        },
+        {
+            "generation": 22,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 23,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 24,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 25,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 26,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 27,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 28,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 29,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 30,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 31,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 32,
+            "bestFitness": 89.0
+        },
+        {
+            "generation": 33,
+            "bestFitness": 93.5
+        },
+        {
+            "generation": 34,
+            "bestFitness": 93.5
+        },
+        {
+            "generation": 35,
+            "bestFitness": 93.5
+        },
+        {
+            "generation": 36,
+            "bestFitness": 95.0
+        },
+        {
+            "generation": 37,
+            "bestFitness": 95.0
+        },
+        {
+            "generation": 38,
+            "bestFitness": 95.0
+        },
+        {
+            "generation": 39,
+            "bestFitness": 95.0
+        },
+        {
+            "generation": 40,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 41,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 42,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 43,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 44,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 45,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 46,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 47,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 48,
+            "bestFitness": 96.5
+        },
+        {
+            "generation": 49,
+            "bestFitness": 96.5
+        }
+    ]
+}
