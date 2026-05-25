@@ -679,8 +679,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 56.45
+  m_fontSizeBase: 56.45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -743,10 +743,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1568581963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323, y: 221}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 243.95032, y: -113.09671}
+  m_SizeDelta: {x: 253.9006, y: 112.1933}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1053371346
 GameObject:
@@ -860,10 +860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1004,6 +1004,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1844603944}
   stepDelay: 0.5
+  genomeJsonFile: {fileID: 4900000, guid: ff1257e62617c2b46a48daed133ade13, type: 3}
+  playFromJsonOnStart: 1
 --- !u!1 &2061150947
 GameObject:
   m_ObjectHideFlags: 0

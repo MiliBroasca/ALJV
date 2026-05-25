@@ -28,6 +28,11 @@ public class GeneticAlgRunner : MonoBehaviour
 
     public void StartAlg()
     {
+        if (genomePlayback.playFromJsonOnStart == true)
+        {
+            return;
+        }
+
         Vector2Int startPos = new Vector2Int(0, 0);
         string startRoom = "RoomA";
 
@@ -92,6 +97,7 @@ public class GeneticAlgRunner : MonoBehaviour
         GALog log = new GALog
         {
             timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            mapVariant = RoomManager.SelectedMapVariant.ToString(),
             startRoom = startRoom,
             populationSize = populationSize,
             genomeLength = genomeLength,

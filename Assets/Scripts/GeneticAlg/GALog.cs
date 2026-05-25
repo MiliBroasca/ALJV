@@ -14,6 +14,7 @@ public class GenerationLogEntry
 public class GALog
 {
     public string algorithm = "GeneticAlgorithm";
+    public string mapVariant;
     public string timestamp;
     public string startRoom;
     public int populationSize;

@@ -46,7 +46,10 @@ public class ScoreManager : MonoBehaviour
     void UpdateUI()
     {
         if (scoreText != null)
+        {
             scoreText.text = "Score: " + score;
+            scoreText.text += "\nHealth: " + health;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -62,6 +65,7 @@ public class ScoreManager : MonoBehaviour
             health = 0;
             isDead?.Invoke();
         }
+        UpdateUI();
     }
 
     void OnDestroy()
