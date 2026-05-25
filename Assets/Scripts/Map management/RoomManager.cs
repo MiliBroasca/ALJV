@@ -12,21 +12,18 @@ public class RoomManager : MonoBehaviour
     static CellType R = CellType.Reward;
     static CellType B = CellType.Boss;
 
-    public enum MapVariant
+    public static MapVariant SelectedMapVariant
     {
-        Original,
-        Variant2
-    }
+        get
+        {
+            if (MapConfig.Instance != null)
+                return MapConfig.Instance.selectedMapVariant;
 
-    [SerializeField] private MapVariant currentMapVariant = MapVariant.Original;
-    public static MapVariant SelectedMapVariant { get; private set; }
+            return MapVariant.Original;
+        }
+    }
 
     public Action generatedGrid;
-
-    private void Awake()
-    {
-        SelectedMapVariant = currentMapVariant;
-    }
 
     void Start()
     {
