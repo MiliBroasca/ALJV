@@ -1,0 +1,301 @@
+{
+    "algorithm": "GeneticAlgorithm",
+    "mapVariant": "Variant2",
+    "timestamp": "2026-05-26 11:55:55",
+    "startRoom": "RoomA",
+    "populationSize": 50,
+    "genomeLength": 80,
+    "generations": 50,
+    "mutationRate": 0.07999999821186066,
+    "eliteCount": 2,
+    "bestFitness": 139.5,
+    "finalScore": 166,
+    "remainingHealth": 50,
+    "stepsUsed": 73,
+    "died": false,
+    "reachedGoal": false,
+    "bestGenome": [
+        "Up",
+        "Up",
+        "Right",
+        "Left",
+        "Up",
+        "Left",
+        "Right",
+        "Down",
+        "Down",
+        "Right",
+        "Up",
+        "Left",
+        "Right",
+        "Left",
+        "Right",
+        "Right",
+        "Up",
+        "Up",
+        "Up",
+        "Up",
+        "Right",
+        "Right",
+        "Down",
+        "Down",
+        "Right",
+        "Left",
+        "Up",
+        "Right",
+        "Up",
+        "Down",
+        "Up",
+        "Up",
+        "Up",
+        "Right",
+        "Up",
+        "Left",
+        "Right",
+        "Left",
+        "Left",
+        "Right",
+        "Right",
+        "Left",
+        "Down",
+        "Up",
+        "Up",
+        "Up",
+        "Down",
+        "Down",
+        "Down",
+        "Right",
+        "Up",
+        "Down",
+        "Right",
+        "Up",
+        "Down",
+        "Left",
+        "Up",
+        "Left",
+        "Up",
+        "Right",
+        "Right",
+        "Up",
+        "Down",
+        "Left",
+        "Up",
+        "Right",
+        "Up",
+        "Right",
+        "Up",
+        "Right",
+        "Up",
+        "Right",
+        "Down",
+        "Down",
+        "Down",
+        "Right",
+        "Up",
+        "Right",
+        "Down",
+        "Up"
+    ],
+    "generationStats": [
+        {
+            "generation": 0,
+            "bestFitness": 26.5
+        },
+        {
+            "generation": 1,
+            "bestFitness": 53.0
+        },
+        {
+            "generation": 2,
+            "bestFitness": 56.0
+        },
+        {
+            "generation": 3,
+            "bestFitness": 76.0
+        },
+        {
+            "generation": 4,
+            "bestFitness": 76.0
+        },
+        {
+            "generation": 5,
+            "bestFitness": 84.5
+        },
+        {
+            "generation": 6,
+            "bestFitness": 84.5
+        },
+        {
+            "generation": 7,
+            "bestFitness": 84.5
+        },
+        {
+            "generation": 8,
+            "bestFitness": 84.5
+        },
+        {
+            "generation": 9,
+            "bestFitness": 84.5
+        },
+        {
+            "generation": 10,
+            "bestFitness": 84.5
+        },
+        {
+            "generation": 11,
+            "bestFitness": 99.5
+        },
+        {
+            "generation": 12,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 13,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 14,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 15,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 16,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 17,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 18,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 19,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 20,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 21,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 22,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 23,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 24,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 25,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 26,
+            "bestFitness": 117.5
+        },
+        {
+            "generation": 27,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 28,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 29,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 30,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 31,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 32,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 33,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 34,
+            "bestFitness": 121.5
+        },
+        {
+            "generation": 35,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 36,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 37,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 38,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 39,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 40,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 41,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 42,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 43,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 44,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 45,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 46,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 47,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 48,
+            "bestFitness": 139.5
+        },
+        {
+            "generation": 49,
+            "bestFitness": 139.5
+        }
+    ]
+}

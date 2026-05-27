@@ -594,8 +594,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   populationSize: 50
   genomeLength: 80
-  generations: 50
-  mutationRate: 0.08
+  generations: 100
+  mutationRate: 0.15
   eliteCount: 2
   roomManager: {fileID: 2061150948}
   genomePlayback: {fileID: 1844603949}
@@ -1049,7 +1049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1844603944}
   stepDelay: 0.5
-  genomeJsonFile: {fileID: 4900000, guid: 629ab6cc7512f5449886b3f449a56557, type: 3}
+  genomeJsonFile: {fileID: 4900000, guid: 2af593f259716bc408912a944c57455a, type: 3}
   playFromJsonOnStart: 1
 --- !u!1 &2061150947
 GameObject:

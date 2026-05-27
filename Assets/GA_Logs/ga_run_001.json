@@ -1,5 +1,6 @@
 {
     "algorithm": "GeneticAlgorithm",
+    "mapVariant": "Original",
     "timestamp": "2026-05-24 14:58:01",
     "startRoom": "RoomA",
     "populationSize": 50,

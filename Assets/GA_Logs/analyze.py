@@ -2,12 +2,18 @@
 from __future__ import annotations
 
 """
-Evaluate Unity GA JSON logs.
+Evaluate Unity GA JSON logs and generate aggregate plots.
 
 Usage:
-    python evaluate_ga_logs.py --logs-dir "Assets/GA_Logs"
-    python evaluate_ga_logs.py --logs-dir "Assets/GA_Logs" --export-csv
-    python evaluate_ga_logs.py --logs-dir "Assets/GA_Logs" --plot
+    python evaluate_ga_logs_v2.py --logs-dir "Assets/GA_Logs"
+    python evaluate_ga_logs_v2.py --logs-dir "Assets/GA_Logs" --export-csv
+    python evaluate_ga_logs_v2.py --logs-dir "Assets/GA_Logs" --plot
+"""
+
+"""
+    NOTES:
+    - json44 last with not modified step
+    - +0.5 penalty for steps
 """
 
 import argparse
@@ -128,24 +134,12 @@ def print_transfer_matrix(df: pd.DataFrame) -> None:
         return
 
     print("\n=== TRANSFER MATRIX (avg bestFitness) ===")
-    pivot = pd.pivot_table(
-        df,
-        values="bestFitness",
-        index="trainMap",
-        columns="evalMap",
-        aggfunc="mean"
-    )
+    pivot = pd.pivot_table(df, values="bestFitness", index="trainMap", columns="evalMap", aggfunc="mean")
     with pd.option_context("display.max_rows", None, "display.max_columns", None, "display.width", 160):
         print(pivot.to_string(float_format=lambda x: f"{x:.3f}"))
 
     print("\n=== TRANSFER MATRIX (success rate) ===")
-    pivot_success = pd.pivot_table(
-        df,
-        values="reachedGoal",
-        index="trainMap",
-        columns="evalMap",
-        aggfunc="mean"
-    )
+    pivot_success = pd.pivot_table(df, values="reachedGoal", index="trainMap", columns="evalMap", aggfunc="mean")
     with pd.option_context("display.max_rows", None, "display.max_columns", None, "display.width", 160):
         print(pivot_success.to_string(float_format=lambda x: f"{x:.3f}"))
 
@@ -153,8 +147,7 @@ def print_transfer_matrix(df: pd.DataFrame) -> None:
 def export_csvs(df: pd.DataFrame, out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    raw_path = out_dir / "ga_logs_raw.csv"
-    df.drop(columns=["generationStats"], errors="ignore").to_csv(raw_path, index=False)
+    df.drop(columns=["generationStats"], errors="ignore").to_csv(out_dir / "ga_logs_raw.csv", index=False)
 
     grouped = (
         df.groupby(["algorithm", "mapVariant", "startRoom", "runType", "trainMap", "evalMap"], dropna=False)
@@ -174,19 +167,17 @@ def export_csvs(df: pd.DataFrame, out_dir: Path) -> None:
 
 
 def plot_generation_curves(df: pd.DataFrame, out_dir: Path) -> None:
-    try:
-        import matplotlib.pyplot as plt
-    except ImportError:
-        print("\nmatplotlib is not installed. Skipping plots.")
-        return
+    import matplotlib.pyplot as plt
 
     out_dir.mkdir(parents=True, exist_ok=True)
+    curves_dir = out_dir / "per_run_curves"
+    curves_dir.mkdir(parents=True, exist_ok=True)
 
+    # Per-run fitness curves
     for _, row in df.iterrows():
         stats = row.get("generationStats", [])
         if not stats:
             continue
-
         gen_df = pd.DataFrame(stats)
         if "generation" not in gen_df or "bestFitness" not in gen_df:
             continue
@@ -197,8 +188,91 @@ def plot_generation_curves(df: pd.DataFrame, out_dir: Path) -> None:
         plt.ylabel("Best fitness")
         plt.title(f'{row["file"]} | {row["mapVariant"]} | {row["startRoom"]}')
         plt.tight_layout()
-        plt.savefig(out_dir / f'{Path(row["file"]).stem}_fitness.png', dpi=150)
+        plt.savefig(curves_dir / f'{Path(row["file"]).stem}_fitness.png', dpi=150)
         plt.close()
+
+    # Distribution of best fitness across all files
+    best_fit = df["bestFitness"].dropna()
+    if not best_fit.empty:
+        plt.figure(figsize=(8, 4.5))
+        plt.hist(best_fit, bins=min(15, max(5, len(best_fit))))
+        plt.xlabel("Best fitness")
+        plt.ylabel("Number of runs")
+        plt.title("Distribution of best fitness across all runs")
+        plt.tight_layout()
+        plt.savefig(out_dir / "best_fitness_distribution.png", dpi=150)
+        plt.close()
+
+    # Boxplot by map variant
+    grouped_variant = [grp["bestFitness"].dropna().values for _, grp in df.groupby("mapVariant")]
+    labels_variant = [str(name) for name, _ in df.groupby("mapVariant")]
+    if grouped_variant and any(len(g) > 0 for g in grouped_variant):
+        plt.figure(figsize=(8, 4.5))
+        plt.boxplot(grouped_variant, tick_labels=labels_variant)
+        plt.xlabel("Map variant")
+        plt.ylabel("Best fitness")
+        plt.title("Best fitness by map variant")
+        plt.tight_layout()
+        plt.savefig(out_dir / "best_fitness_by_map_variant_boxplot.png", dpi=150)
+        plt.close()
+
+    # Final score distribution
+    final_score = df["finalScore"].dropna()
+    if not final_score.empty:
+        plt.figure(figsize=(8, 4.5))
+        plt.hist(final_score, bins=min(15, max(5, len(final_score))))
+        plt.xlabel("Final score")
+        plt.ylabel("Number of runs")
+        plt.title("Distribution of final score across all runs")
+        plt.tight_layout()
+        plt.savefig(out_dir / "final_score_distribution.png", dpi=150)
+        plt.close()
+
+    # Best fitness vs steps
+    scatter_df = df[["bestFitness", "stepsUsed"]].dropna()
+    if not scatter_df.empty:
+        plt.figure(figsize=(8, 4.5))
+        plt.scatter(scatter_df["stepsUsed"], scatter_df["bestFitness"])
+        plt.xlabel("Steps used")
+        plt.ylabel("Best fitness")
+        plt.title("Best fitness vs steps used")
+        plt.tight_layout()
+        plt.savefig(out_dir / "best_fitness_vs_steps.png", dpi=150)
+        plt.close()
+
+    # Success rate by map variant
+    success_by_variant = df.groupby("mapVariant", dropna=False)["reachedGoal"].mean()
+    if not success_by_variant.empty:
+        plt.figure(figsize=(8, 4.5))
+        plt.bar(success_by_variant.index.astype(str), success_by_variant.values)
+        plt.xlabel("Map variant")
+        plt.ylabel("Success rate")
+        plt.title("Success rate by map variant")
+        plt.ylim(0, 1)
+        plt.tight_layout()
+        plt.savefig(out_dir / "success_rate_by_map_variant.png", dpi=150)
+        plt.close()
+
+    # Overlay all fitness curves
+    any_curves = False
+    plt.figure(figsize=(8, 4.5))
+    for _, row in df.iterrows():
+        stats = row.get("generationStats", [])
+        if not stats:
+            continue
+        gen_df = pd.DataFrame(stats)
+        if "generation" not in gen_df or "bestFitness" not in gen_df:
+            continue
+        plt.plot(gen_df["generation"], gen_df["bestFitness"], alpha=0.5)
+        any_curves = True
+
+    if any_curves:
+        plt.xlabel("Generation")
+        plt.ylabel("Best fitness")
+        plt.title("Best fitness curves for all runs")
+        plt.tight_layout()
+        plt.savefig(out_dir / "all_runs_fitness_curves.png", dpi=150)
+    plt.close()
 
     print(f"\nSaved plots to: {out_dir}")
 
@@ -207,7 +281,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate Unity GA JSON logs.")
     parser.add_argument("--logs-dir", type=str, required=True, help="Directory containing GA JSON logs.")
     parser.add_argument("--export-csv", action="store_true", help="Export raw and summary CSV files.")
-    parser.add_argument("--plot", action="store_true", help="Save best-fitness-per-generation plots.")
+    parser.add_argument("--plot", action="store_true", help="Save aggregate and per-run plots.")
     parser.add_argument("--out-dir", type=str, default=None, help="Output directory for CSVs/plots (default: <logs-dir>/analysis)")
     args = parser.parse_args()
 
@@ -219,7 +293,7 @@ def main() -> None:
 
     print_overall_summary(df)
     print_grouped_summary(df)
-    print_transfer_matrix(df)
+    # print_transfer_matrix(df)
 
     out_dir = Path(args.out_dir) if args.out_dir else (logs_dir / "analysis")
 

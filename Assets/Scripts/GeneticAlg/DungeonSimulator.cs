@@ -158,7 +158,7 @@ public class DungeonSimulator
     private SimulationResult BuildResult(SimState state)
     {
         float fitness = state.score;
-        fitness -= state.steps * 0.5f; // Penalize for more steps
+        fitness -= state.steps * 1f; // Penalize for more steps
         if (state.reachedGoal)
         {
             fitness += 100; // Bonus for reaching goal
