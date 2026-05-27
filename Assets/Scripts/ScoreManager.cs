@@ -48,11 +48,23 @@ public class ScoreManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        UpdateUI(); // forțează refresh UI după schimbare scenă
+        scoreText = FindObjectOfType<TextMeshProUGUI>();
+
+        if (scoreText == null)
+            Debug.LogError("ScoreText not found!");
+
+        UpdateUI();
     }
 
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void ResetScore()
+    {
+        score = 0;
+        health = 100;
+        playerPosition = Vector2Int.zero;
+        UpdateUI();
     }
 }
